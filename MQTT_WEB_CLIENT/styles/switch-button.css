@@ -1,0 +1,85 @@
+.switch-container {
+
+    width: 120px;
+    height: 300px;
+    border: 3px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    position: relative;
+    position: absolute;
+    right: 10px;
+}
+
+.label {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.switch {
+    width: 80px;
+    height: 160px;
+    border: 3px solid black;
+    position: relative;
+    cursor: pointer;
+}
+
+.switch-circle {
+    width: 40px;
+    height: 40px;
+    border: 3px solid black;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: top 0.3s ease;
+}
+
+.switch-line {
+    width: 4px;
+    height: 20px;
+    background-color: black;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+}
+
+.off {
+    border: 3px solid white;
+}
+
+.off .switch {
+    border: 3px solid white;
+}
+
+.on .switch-circle {
+    top: 20px;
+}
+
+.off .switch-circle {
+    top: 100px;
+    border: 3px solid white;
+}
+
+.off .switch-line {
+    background-color: white;
+}
+
+.on .on-label {
+    color: rgb(6, 255, 6);
+}
+
+.off .off-label {
+    color: red;
+}
+
+.on .off-label {
+    color: #888;
+}
+
+.off .on-label {
+    color: #888;
+}

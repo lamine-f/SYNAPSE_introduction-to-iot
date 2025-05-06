@@ -1,0 +1,242 @@
+[
+    {
+        "id": "1249aff6ea109fc8",
+        "type": "tab",
+        "label": "Flux 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "78f368caa087298c",
+        "type": "function",
+        "z": "1249aff6ea109fc8",
+        "name": "Set output message",
+        "func": "return msg.payload ?\n    { payload: \"Commande d'activation reçue\" } :\n    { payload: \"Commande d'extinction reçue\" };",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 380,
+        "wires": [
+            [
+                "11ebdca83d34391c"
+            ]
+        ]
+    },
+    {
+        "id": "a657a0e37cb386ef",
+        "type": "function",
+        "z": "1249aff6ea109fc8",
+        "name": "Notify change of status",
+        "func": "return { payload: msg.payload ? '1' : '0' };",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 80,
+        "wires": [
+            [
+                "b4c16816cf1a43ea"
+            ]
+        ]
+    },
+    {
+        "id": "3bc36e33f478cc92",
+        "type": "mqtt in",
+        "z": "1249aff6ea109fc8",
+        "name": "LED status reception",
+        "topic": "@lord-nighteyes/led/1/management",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "2b3c1c6dfee40d1a",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 220,
+        "wires": [
+            [
+                "2bd1ec1b7e89042e"
+            ]
+        ]
+    },
+    {
+        "id": "b4c16816cf1a43ea",
+        "type": "mqtt out",
+        "z": "1249aff6ea109fc8",
+        "name": "LED status emit",
+        "topic": "@lord-nighteyes/led/1/management",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "2b3c1c6dfee40d1a",
+        "x": 1100,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "2bd1ec1b7e89042e",
+        "type": "function",
+        "z": "1249aff6ea109fc8",
+        "name": "Parse to boolean",
+        "func": "return { payload: !!JSON.parse(msg.payload) };",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 220,
+        "wires": [
+            [
+                "8c3a8d3b9e810358",
+                "f14e02fce35e6682",
+                "78f368caa087298c"
+            ]
+        ]
+    },
+    {
+        "id": "8c3a8d3b9e810358",
+        "type": "ui_switch",
+        "z": "1249aff6ea109fc8",
+        "name": "",
+        "label": "On/Off switch button",
+        "tooltip": "",
+        "group": "1959c2ce2804ad20",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 340,
+        "y": 80,
+        "wires": [
+            [
+                "f14e02fce35e6682"
+            ]
+        ]
+    },
+    {
+        "id": "f14e02fce35e6682",
+        "type": "switch",
+        "z": "1249aff6ea109fc8",
+        "name": "Triggering on value change",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "",
+                "vt": "prev"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 700,
+        "y": 220,
+        "wires": [
+            [
+                "a657a0e37cb386ef"
+            ]
+        ]
+    },
+    {
+        "id": "11ebdca83d34391c",
+        "type": "ui_text",
+        "z": "1249aff6ea109fc8",
+        "group": "1959c2ce2804ad20",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "LED status message",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 460,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "2b3c1c6dfee40d1a",
+        "type": "mqtt-broker",
+        "name": "EMQX - LED MANAGMENT ",
+        "broker": "broker.emqx.io",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "1959c2ce2804ad20",
+        "type": "ui_group",
+        "name": "Lord - Night Eyes | Gestion LED (avec l'application web + MQTT)",
+        "tab": "157e823ef5526351",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "157e823ef5526351",
+        "type": "ui_tab",
+        "name": "LED management",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]

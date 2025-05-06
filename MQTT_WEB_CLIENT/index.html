@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lord NightEyes - Synapse | Bouton ON/OFF</title>
+    <link rel="stylesheet" href="./styles/global.css">
+    <link rel="stylesheet" href="./styles/media-content.css">
+    <link rel="stylesheet" href="./styles/switch-button.css">
+    <script src="js/libs/paho.javascript-1.0.3/paho-mqtt-min.js"></script>
+</head>
+<body>
+    <div class="media-content">
+        <div id="media-container" >
+            <img src="./medias/pimpi-off.png"/>
+        </div>
+    </div>
+    <div class="switch-container off" id="switchContainer">
+        <div class="label on-label">ON</div>
+        <div class="switch" id="switchToggle">
+            <div class="switch-circle"></div>
+            <div class="switch-line"></div>
+        </div>
+        <div class="label off-label">OFF</div>
+    </div>
+    <script src="js/mqtt/mqtt.js"></script>
+    <script src="js/ui/ui.js"></script>
+</body>
+</html>
