@@ -25,7 +25,17 @@ L'interface permet d'allumer/éteindre une LED virtuellement et affiche différe
 
 ## Captures d'écran
 
-[Insérer captures d'écran de l'interface web ici]
+* L'interface web
+
+![image](https://github.com/user-attachments/assets/bd0a311a-7404-44ff-92a0-ea73e53a899f)
+
+![image](https://github.com/user-attachments/assets/c1ba37fb-13a4-46a3-aa03-141e32fbb3b8)
+
+* Le dashboard du serveur Node-RED
+
+![image](https://github.com/user-attachments/assets/7a0bd136-89a2-4206-b8bf-d026ad9a762e)
+
+![image](https://github.com/user-attachments/assets/e6a18c8d-f204-4a7d-809e-e0ee5984b851)
 
 ## Prérequis
 
