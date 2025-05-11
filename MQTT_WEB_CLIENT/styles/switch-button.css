@@ -1,5 +1,4 @@
 .switch-container {
-
     width: 120px;
     height: 300px;
     border: 3px solid black;
@@ -82,4 +81,11 @@
 
 .off .on-label {
     color: #888;
+}
+
+@media (max-width: 768px) {
+    .switch-container {
+        position: relative;
+        right: 0;
+    }
 }

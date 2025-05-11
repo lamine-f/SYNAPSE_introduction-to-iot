@@ -3,10 +3,10 @@ const medias = [
       off: { type: "image", src: "medias/pimpi-off.png" },
       on:  { type: "image", src: "medias/pimpi-on.jpeg" }
     },
-    {
-      off: { type: "image", src: "medias/souley-on.jpeg" },
-      on:  { type: "video", src: "medias/pere-bou-xar.webm" }
-    }
+    //{
+      //off: { type: "image", src: "medias/souley-on.jpeg" },
+      //on:  { type: "video", src: "medias/pere-bou-xar.webm" }
+    //}
 ];
 
 const switchContainer = document.getElementById("switchContainer");

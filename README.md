@@ -6,8 +6,10 @@ Ce projet permet de contrôler l'état d'une LED à travers une interface web et
 - [Aperçu](#aperçu)
 - [Prérequis](#prérequis)
 - [Installation](#installation)
+  - [Installation de Node-RED Dashboard](#installation-de-node-red-dashboard)
 - [Structure du projet](#structure-du-projet)
 - [Configuration](#configuration)
+  - [Configuration MQTT](#configuration-mqtt)
 - [Utilisation](#utilisation)
 - [Architecture](#architecture)
 - [Dépannage](#dépannage)
@@ -16,7 +18,7 @@ Ce projet permet de contrôler l'état d'une LED à travers une interface web et
 
 Ce projet illustre l'utilisation du protocole MQTT pour créer une communication bidirectionnelle entre:
 - Une interface web (client MQTT)
-- Un serveur Node-RED (broker MQTT)
+- Un serveur Node-RED (client MQTT)
 - Un potentiel appareil physique avec LED (non inclus dans ce dépôt)
 
 L'interface permet d'allumer/éteindre une LED virtuellement et affiche différents médias (images et vidéos) en fonction de son état.
@@ -29,6 +31,7 @@ L'interface permet d'allumer/éteindre une LED virtuellement et affiche différe
 
 - Node.js et npm (https://nodejs.org/)
 - Node-RED (https://nodered.org/)
+- Node-RED Dashboard (module complémentaire pour l'interface utilisateur)
 - Un navigateur web moderne
 - Connexion Internet (pour le broker MQTT public)
 
@@ -36,7 +39,7 @@ L'interface permet d'allumer/éteindre une LED virtuellement et affiche différe
 
 1. **Cloner ce dépôt:**
    ```bash
-   git clone [URL-du-dépôt]
+   git clone https://github.com/lamine-f/SYNAPSE_introduction-to-iot.git
    cd presentation-synapse
    ```
 
@@ -49,24 +52,39 @@ L'interface permet d'allumer/éteindre une LED virtuellement et affiche différe
    npm install -g --unsafe-perm node-red
    ```
 
-4. **Démarrer Node-RED:**
+### Installation de Node-RED Dashboard
+
+4. **Installer le module Node-RED Dashboard:**
+   ```bash
+   npm install -g node-red-dashboard
+   ```
+   
+   Ou via l'interface Node-RED:
+   - Ouvrir Node-RED dans votre navigateur
+   - Cliquer sur le menu hamburger (en haut à droite)
+   - Aller dans "Manage palette"
+   - Aller à l'onglet "Install"
+   - Rechercher "node-red-dashboard"
+   - Cliquer sur "Install"
+
+5. **Démarrer Node-RED:**
    ```bash
    node-red
    ```
    Node-RED sera accessible à l'adresse http://localhost:1880/
 
-5. **Importer le flux dans Node-RED:**
+6. **Importer le flux dans Node-RED:**
    - Ouvrir Node-RED dans votre navigateur
    - Cliquer sur le menu hamburger (en haut à droite)
    - Sélectionner "Import"
    - Copier le contenu du fichier `flow.json` ou importer directement le fichier
    - Cliquer sur "Import"
 
-6. **Configurer la bibliothèque Paho MQTT:**
+<!-- 7. **Configurer la bibliothèque Paho MQTT:**
    - La bibliothèque `paho-mqtt-min.js` est déjà incluse dans le projet (`MQTT_WEB_CLIENT/js/libs/paho.javascript-1.0.3/paho-mqtt-min.js`)
 
-7. **Ouvrir l'interface web:**
-   - Ouvrir le fichier `MQTT_WEB_CLIENT/index.html` dans un navigateur web
+8. **Ouvrir l'interface web:**
+   - Ouvrir le fichier `MQTT_WEB_CLIENT/index.html` dans un navigateur web -->
 
 ## Structure du projet
 
@@ -95,7 +113,16 @@ presentation-synapse/
 
 ### Configuration MQTT
 
-La configuration MQTT se trouve dans le fichier `MQTT_WEB_CLIENT/js/mqtt/mqtt.js`:
+Ce projet utilise les paramètres MQTT suivants:
+
+| Paramètre | Valeur | Description |
+|-----------|--------|-------------|
+| **Broker** | `broker.emqx.io` | Broker MQTT public hébergé par EMQX |
+| **Port** | `8083` | Port WebSocket pour la connexion MQTT |
+| **Topic** | `@lord-nighteyes/led/1/management` | Topic utilisé pour communiquer l'état de la LED |
+| **QoS** | `2` | Quality of Service (importé depuis le fichier flow.json) |
+
+Ces paramètres sont configurés dans le fichier `MQTT_WEB_CLIENT/js/mqtt/mqtt.js`:
 
 ```javascript
 const Configuration = {
@@ -106,7 +133,19 @@ const Configuration = {
 }
 ```
 
-Vous pouvez modifier ces paramètres pour utiliser un broker MQTT différent si nécessaire.
+Et dans la configuration Node-RED (flow.json):
+```json
+{
+    "id": "3bc36e33f478cc92",
+    "type": "mqtt in",
+    "name": "LED status reception",
+    "topic": "@lord-nighteyes/led/1/management",
+    "qos": "2",
+    // ...autres paramètres
+}
+```
+
+> **Note**: Le broker `broker.emqx.io` est un broker MQTT public, ce qui signifie qu'il est partagé avec d'autres utilisateurs. Pour des applications de production, il est recommandé d'utiliser un broker privé.
 
 ## Utilisation
 
@@ -155,6 +194,7 @@ Le projet utilise une architecture basée sur MQTT:
 ### Problèmes avec Node-RED
 
 - Vérifier que Node-RED est en cours d'exécution
+- Vérifier que Node-RED Dashboard est correctement installé
 - Vérifier les journaux Node-RED pour les erreurs
 - S'assurer que le flux a été correctement importé
 
